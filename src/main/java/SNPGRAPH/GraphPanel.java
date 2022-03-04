@@ -236,7 +236,7 @@ public class GraphPanel extends JPanel {
 //			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		}
 		JButton exit = new JButton("EXIT");
-		
+		exit.addActionListener(e -> System.exit(0));
 		frame.setMinimumSize(new Dimension(275, 275));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
