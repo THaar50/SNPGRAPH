@@ -4,7 +4,6 @@
 
 package SNPGRAPH;
 
-import java.util.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,33 +27,11 @@ public class SNPGRAPH {
 			throw new IllegalArgumentException();
 		}
 		
-		//TODO: File name extraction to do, args elements then run with seperate window sizes, graph output names according to
-		//input filenames.
-		Scanner in = new Scanner(System.in);
-		System.out.print("Select window sizes for all " + args.length + " datasets (default is 400) greater than 50 and hit enter: ");
-		int[] windowSize = new int[args.length];
-		for(int i=0; i<args.length; i++){
-			windowSize[i]= in.nextInt();
-		}
-		in.close();
+		//TODO: Read command line parameters from function call (read dbSNP file, read chipSeq file, window close config, window sizes)
 
-		//TODO: DEBUG specifying how graph panels should be closed
-//		Scanner in2 = new Scanner(System.in);
-//		System.out.println("Close all graph panels at once? (y/n)");
-//		String closeOnExit = in2.next();
-//		in2.close();
-		
 		for(int i=0;i<args.length;i++){
-			if(windowSize[i] <= 50){
-				windowSize[i] = DEFAULT;
-				System.out.println("Invalid window size input. Using default size..");
-			}
-			
-			File f = new File(args[i]);
-			String file_name = f.getName();
-			
-			//closeOnExit
-			newRun(windowSize[i], file_name);
+			File file = new File(args[i]);
+			newRun(200, file);
 			System.out.println("Finished with dataset " + (i+1) + "!");
 		}
 	}
@@ -63,15 +40,16 @@ public class SNPGRAPH {
 	 * Start new run 
 	 */
 	//closeAll
-	public static void newRun(int windowSize, String file_name) {
+	public static void newRun(int windowSize, File file) {
+		String file_path = file.getAbsolutePath();
 
-		System.out.println("File: " + file_name);
+		System.out.println("File: " + file_path);
 		
 		long starttime = System.nanoTime();
 		Database database = new Database();
 
 		// Prepare and read in data with scripts
-//		prepAndReadInData(file_name);
+		prepAndReadInData(file_path);
 		
 		long readInTime = System.nanoTime();
 		System.out.println("Read in time: " + (readInTime-starttime)/1000000000.0 + " seconds");
@@ -82,9 +60,10 @@ public class SNPGRAPH {
 		// Create new panel and draw graph with given data
 		//closeAll
 		GraphPanel.showGUI(database.getUpSNP(), database.getDownSNP(),
-				windowSize, database.getTotalFrags(), file_name);
+				windowSize, database.getTotalFrags(), file.getName());
 		
-//		database.dropTable("chipseq");
+		database.dropTable("chipseq");
+		System.out.println("Cleaned up database!");
 		database.disconnect();
 		
 		// Execution time measurement
@@ -99,8 +78,8 @@ public class SNPGRAPH {
 	 */
 
 	public static void prepAndReadInData(String file) {
-		String[] cmd = { "sh", "prepChipData.sh", file };
-		String[] cmd2 = { "sh", "importFile.sh"};
+		String[] cmd = { "sh", "../resources/main/prepChipData.sh", file };
+		String[] cmd2 = { "sh", "../resources/main/importChipData.sh"};
 		try {
 			Process p = Runtime.getRuntime().exec(cmd);
 
@@ -133,6 +112,7 @@ public class SNPGRAPH {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Done!");
 
 	}
 	
