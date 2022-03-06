@@ -3,6 +3,7 @@
 # Prepare ChIP-Seq Data
 echo Preparing ChIP-Seq sequence..
 input=$1
+BASEDIR=$(dirname "$0")
 mv "$1" chipSeq.txt
 echo Using data from "$1"
 echo Filtering data..
@@ -16,7 +17,7 @@ mv chipSeq.txt "$1"
 
 # Add index column to chipSeqData
 echo Adding indices..
-awk '{printf("%d\t%s\n", NR,$0)}' chipSeqDataSort.txt > chipSeqDataSortIndex.txt
+awk '{printf("%d\t%s\n", NR,$0)}' chipSeqDataSort.txt > "$BASEDIR/chipSeqDataSortIndex.txt"
 echo Done!
 echo Deleting temporary files..
 find "chipSeqDataSort.txt" -delete
