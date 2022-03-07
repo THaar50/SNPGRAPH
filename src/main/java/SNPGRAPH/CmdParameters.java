@@ -60,12 +60,12 @@ public class CmdParameters {
 	 * prepares the options for the command line parser
 	 */
 	private void prepareOptions() {
-		Option snpFile = new Option("s", "snpFile", true, "dbSNP file (default: snpgraph/data/dbsnp/)");
+		Option snpFile = new Option("s", "snpFile", true, "path to dbSNP file or directory (default: /snpgraph/data/dbsnp/)");
 		snpFile.setRequired(false);
 		options.addOption(snpFile);
 		defaults.put("snpFile", "/snpgraph/data/dbsnp/");
 
-		Option chipSeqFile = new Option("c", "chipSeqFile", true, "chipSeq file in narrowPeak format (default: snpgraph/data/chipseq/)");
+		Option chipSeqFile = new Option("c", "chipSeqFile", true, "path to chipSeq file in narrowPeak format or directory (default: /snpgraph/data/chipseq/)");
 		chipSeqFile.setRequired(false);
 		options.addOption(chipSeqFile);
 		defaults.put("chipSeqFile", "/snpgraph/data/chipseq/");

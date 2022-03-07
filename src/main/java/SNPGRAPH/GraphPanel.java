@@ -59,7 +59,6 @@ public class GraphPanel extends JPanel {
 				this.down_values[i] = down_values[i];
 			}
 		}
-
 	}
 
 	/*
@@ -172,7 +171,6 @@ public class GraphPanel extends JPanel {
 					/ 2.0 - (i + 1.0) * xValueScaling, height - PADDING
 					- this.down_values[i + 1] * yValuesScaling));
 		}
-
 	}
 
 	/*
@@ -246,5 +244,4 @@ public class GraphPanel extends JPanel {
 		frame.setVisible(true);
 		panel.exportGraph(file_name);
 	}
-
 }

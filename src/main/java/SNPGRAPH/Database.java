@@ -38,7 +38,6 @@ public class Database {
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-
 		return this.conn;
 	}
 
@@ -79,9 +78,7 @@ public class Database {
 				if (maxDist < Math.abs(relSNPDist)) {
 					maxDist = Math.abs(relSNPDist);
 				}
-
 			}
-
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -118,7 +115,6 @@ public class Database {
 		System.out.println("Mean of SNPs in all fragments containing SNPs: "
 				+ (double) overlapCount / (double) fragCount);
 		calcSNPMedian(fragCount, totalFrags);
-
 	}
 
 	/*
@@ -153,7 +149,6 @@ public class Database {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	/*
@@ -205,7 +200,6 @@ public class Database {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
 		return count;
 	}
 
@@ -221,7 +215,6 @@ public class Database {
 	 */
 	public double[] getUpSNP() {
 		return this.up_snp;
-
 	}
 
 	/*
@@ -229,7 +222,6 @@ public class Database {
 	 */
 	public double[] getDownSNP() {
 		return this.down_snp;
-
 	}
 
 	/*
@@ -258,7 +250,5 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
