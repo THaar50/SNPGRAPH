@@ -8,27 +8,42 @@ java -jar snpgraph-0.1.0.jar
 ```
 
 # Pre-requisites
-1. Create folder snpgraph
+
+## On Windows:
+
+1. Create folder snpgraph:
 ```
 mkdir snpgraph
+cd snpgraph
 ```
-2. Clone the repository:
+2. Clone git repository:
 ```
 git clone https://github.com/THaar50/snpgraph
 ```
-3. Run snpgraph:
-
-- On Windows: 
+3. Install and start an XServer for Windows (for example [Vcxsrv](https://sourceforge.net/projects/vcxsrv/))
+5. Run snpgraph:
 The supplied [Dockerfile](Dockerfile) can be used to build and run a container with the following command:
 ```
 docker build -t snpgraph .
 docker run --mount src="$(pwd)"/graph,target=/snpgraph/build/libs/graph,type=bind --mount src="$(pwd)"/data,target=/snpgraph/data,type=bind -it snpgraph
 ```
-- On Linux:
-Build the project with gradle and then run the application from the build/libs folder.
+##Linux:
+1. Create folder snpgraph:
+```
+mkdir /snpgraph
+cd /snpgraph
+```
+2. Clone git repository:
+```
+git clone https://github.com/THaar50/snpgraph
+```
+3. Build the project with gradle:
 ```
 ./gradlew build
-cd ./build/libs/
+cd build/libs/
+```
+4. Run snpgraph:
+```
 java -jar snpgraph-0.1.0.jar
 ```
 
