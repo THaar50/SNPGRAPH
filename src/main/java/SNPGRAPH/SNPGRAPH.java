@@ -20,9 +20,6 @@ import java.math.RoundingMode;
  */
 
 public class SNPGRAPH {
-	
-	private final static int DEFAULT = 400; 
-	
 	/**
 	 * Main method testing for correct input and starting a new run
 	 */
@@ -44,14 +41,19 @@ public class SNPGRAPH {
 		//TODO: Read command line parameters from function call (read dbSNP file, read chipSeq file, window close config, window sizes)
 
 		File dir = new File(System.getProperty("snpgraph.chipseq.datapath"));
-		File[] chipSeqFiles = dir.listFiles();
-		if (chipSeqFiles != null) {
-			for (File chipSeqFile : chipSeqFiles) {
-				newRun(windowSize, chipSeqFile);
-				System.out.println("Done with " + chipSeqFile.getName());
-			}
+		if (dir.isFile()) {
+			newRun(windowSize, dir);
+			System.out.println("Done with " + dir.getName());
 		} else {
-			System.out.println(String.format("No chipSeq files found in %s!", System.getProperty("snpgraph.chipseq.datapath")));
+			File[] chipSeqFiles = dir.listFiles();
+			if (chipSeqFiles != null) {
+				for (File chipSeqFile : chipSeqFiles) {
+					newRun(windowSize, chipSeqFile);
+					System.out.println("Done with " + chipSeqFile.getName());
+				}
+			} else {
+				System.out.println(String.format("No chipSeq files found in %s!", System.getProperty("snpgraph.chipseq.datapath")));
+			}
 		}
 	}
 
@@ -88,7 +90,6 @@ public class SNPGRAPH {
 		// Execution time measurement
 		long endtime = System.nanoTime();
 		System.out.println("Time: " + (endtime - starttime)/1000000000.0 + " seconds");
-		
 	}
 
 	/**
@@ -132,7 +133,6 @@ public class SNPGRAPH {
 			e.printStackTrace();
 		}
 		System.out.println("Done!");
-
 	}
 	
 	/**
@@ -146,5 +146,4 @@ public class SNPGRAPH {
 		bd = bd.setScale(places, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
-
 }
