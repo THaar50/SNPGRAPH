@@ -4,7 +4,12 @@
 
 package SNPGRAPH;
 
-import java.io.*;
+import org.apache.commons.cli.ParseException;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -18,25 +23,39 @@ public class SNPGRAPH {
 	
 	private final static int DEFAULT = 400; 
 	
-	/*
+	/**
 	 * Main method testing for correct input and starting a new run
 	 */
 	public static void main(String[] args) {
-		if (args.length < 1) {
-			System.out.println("No data file selected! Please select a file in narrowPeak format to base calculations on");
-			throw new IllegalArgumentException();
+
+		CmdParameters cmdParameters;
+		try {
+			cmdParameters = new CmdParameters(args);
+		} catch (ParseException e) {
+			return;
 		}
-		
+
+		final int windowSize = cmdParameters.getIntegerValue("windowSize");
+
+		System.setProperty("snpgraph.chipseq.datapath", cmdParameters.getStringValue("chipSeqFile"));
+		System.setProperty("snpgraph.dbsnp.datapath", cmdParameters.getStringValue("snpFile"));
+		System.setProperty("snpgraph.resources", "/snpgraph/build/resources/main/");
+
 		//TODO: Read command line parameters from function call (read dbSNP file, read chipSeq file, window close config, window sizes)
 
-		for(int i=0;i<args.length;i++){
-			File file = new File(args[i]);
-			newRun(200, file);
-			System.out.println("Finished with dataset " + (i+1) + "!");
+		File dir = new File(System.getProperty("snpgraph.chipseq.datapath"));
+		File[] chipSeqFiles = dir.listFiles();
+		if (chipSeqFiles != null) {
+			for (File chipSeqFile : chipSeqFiles) {
+				newRun(windowSize, chipSeqFile);
+				System.out.println("Done with " + chipSeqFile.getName());
+			}
+		} else {
+			System.out.println(String.format("No chipSeq files found in %s!", System.getProperty("snpgraph.chipseq.datapath")));
 		}
 	}
 
-	/*
+	/**
 	 * Start new run 
 	 */
 	//closeAll
@@ -72,14 +91,14 @@ public class SNPGRAPH {
 		
 	}
 
-	/*
+	/**
 	 * Prepare data with the prepChipData script for given filename and import into
 	 * database table with SQLite .import
 	 */
 
 	public static void prepAndReadInData(String file) {
-		String[] cmd = { "sh", "../resources/main/prepChipData.sh", file };
-		String[] cmd2 = { "sh", "../resources/main/importChipData.sh"};
+		String[] cmd = { "sh", System.getProperty("snpgraph.resources") + "prepChipData.sh", file };
+		String[] cmd2 = { "sh", System.getProperty("snpgraph.resources") + "importChipData.sh" };
 		try {
 			Process p = Runtime.getRuntime().exec(cmd);
 
@@ -116,7 +135,7 @@ public class SNPGRAPH {
 
 	}
 	
-	/*
+	/**
 	 * Rounds double value to a given decimal place 
 	 */
 	public static double round(double value, int places) {
