@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Database {
 
-	private static final String DB_URL = "jdbc:sqlite:../resources/main/SNPGRAPH.db";
+	private static final String DB_URL = String.format("jdbc:sqlite:%sSNPGRAPH.db", System.getProperty("snpgraph.resources"));
 	private static final String DRIVER_URL = "org.sqlite.JDBC";
 
 	private Connection conn;
