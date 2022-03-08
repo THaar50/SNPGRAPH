@@ -12,6 +12,8 @@ WORKDIR /snpgraph
 
 COPY . .
 
+RUN chmod +x gradlew
+
 RUN ./gradlew build
 
 WORKDIR /snpgraph/build/libs
