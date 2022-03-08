@@ -13,5 +13,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
+    - name: Set up QEMU
+      id: qemu
+      uses: docker/setup-qemu-action@v1.2.0
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag snpgraph
