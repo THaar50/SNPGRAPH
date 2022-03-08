@@ -18,21 +18,16 @@ import javax.swing.JPanel;
 
 public class GraphPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	@Serial
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
+
 	private final int WIDTH = 700;
 	private final int HEIGHT = 600;
 
 	private double[] up_values, down_values;
 	int graphWindowSize, totalFrags;
 
-	/*
+	/**
 	 * Constructor for the GraphPanel object setting all relevant variables
 	 */
 
@@ -61,7 +56,7 @@ public class GraphPanel extends JPanel {
 		}
 	}
 
-	/*
+	/**
 	 * Overwriting the JComponent method paintComponent to be able to draw the
 	 * graph
 	 * 
@@ -173,7 +168,7 @@ public class GraphPanel extends JPanel {
 		}
 	}
 
-	/*
+	/**
 	 * Return count of the most counted SNP
 	 */
 
@@ -194,7 +189,7 @@ public class GraphPanel extends JPanel {
 		return maxValue;
 	}
 
-	/*
+	/**
 	 * Export the JPanel to a PNG file
 	 */
 	public void exportGraph(String file_name) {
@@ -217,7 +212,7 @@ public class GraphPanel extends JPanel {
 		}
 	}
 
-	/*
+	/**
 	 * Starting the visualisation process
 	 */
 	//closeAll
