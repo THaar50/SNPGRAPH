@@ -9,7 +9,6 @@ import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.Serial;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -17,9 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GraphPanel extends JPanel {
-
-	@Serial
-	private static final long serialVersionUID = 1L;
 
 	private final int WIDTH = 700;
 	private final int HEIGHT = 600;
