@@ -1,0 +1,17 @@
+name: Build the Docker image
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build image on ${{ matrix.os }}
+    strategy:
+      matrix: 
+        os: [ubuntu-18.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag snpgraph
