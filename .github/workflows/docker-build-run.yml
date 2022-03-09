@@ -9,13 +9,9 @@ jobs:
     name: Build image on ${{ matrix.os }}
     strategy:
       matrix: 
-        os: [ubuntu-18.04, windows-latest]
+        os: [ubuntu-18.04, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: Create Docker context
-      run: docker context create linux --description "Linux containers" --default-stack-orchestrator=swarm --docker "host=npipe:////./pipe/dockerDesktopLinuxEngine"
-    - name: Use Docker context
-      run: docker context use linux
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag snpgraph
