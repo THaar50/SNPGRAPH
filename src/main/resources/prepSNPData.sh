@@ -13,7 +13,7 @@ input=$1
 BASEDIR=$(dirname "$0")
 mv "$1" snp.txt
 echo Filtering data..
-awk '/single/{print $1 "\t" $2 "\t" $3}' snp.txt > snpData.txt
+awk '/single/{print $2 "\t" $3}' snp.txt > snpData.txt
 echo Done!
 echo Sorting..
 sort -V -k1 snpData.txt > snpDataSort.txt
