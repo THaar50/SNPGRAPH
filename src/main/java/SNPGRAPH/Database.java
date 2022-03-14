@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.DatabaseMetaData;
 
 public class Database {
 
@@ -95,7 +96,7 @@ public class Database {
 
 		System.out.println("ChIP-Seq fragments in total: " + totalFrags);
 
-		System.out.println(overlapCount + " SNP overlaps found at " + fragCount
+		System.out.println(overlapCount + " SNP overlaps found in " + fragCount
 				+ " fragments!");
 
 		System.out.println("ChiP-Seq fragments without any SNPs: "
@@ -237,6 +238,25 @@ public class Database {
 			System.out.println(e.getMessage());
 		}
 	}
+
+	/**
+	 * Check if given table exists in database.
+	 * @param tableName Name of the table as string.
+	 * @return True if table with given name exists, false otherwise.
+	 */
+
+	public boolean tableExists(String tableName){
+		try {
+			DatabaseMetaData md = this.conn.getMetaData();
+			ResultSet rs = md.getTables(null, null, tableName, null);
+			return rs.next();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+
 
 	/*
 	 * Close connection to database if there is one
