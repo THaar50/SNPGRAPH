@@ -36,6 +36,7 @@ public class SnpGraph {
 
 		System.setProperty("snpgraph.chipseq.datapath", cmdParameters.getStringValue("chipSeqFile"));
 		System.setProperty("snpgraph.dbsnp.datapath", cmdParameters.getStringValue("snpFile"));
+		System.setProperty("snpgraph.dbpath", cmdParameters.getStringValue("dbPath"));
 		System.setProperty("snpgraph.resources", "/snpgraph/build/resources/main/");
 
 		Database database = new Database();
@@ -43,7 +44,7 @@ public class SnpGraph {
 		if (dbsnpDir.isFile()) {
 			System.out.println("Importing new SNP data and overwriting existing SNP data...");
 			database.dropTable("snp");
-			prepAndReadInSnpData(dbsnpDir.getAbsolutePath());
+			prepAndReadInSnpData(dbsnpDir.getAbsolutePath(), System.getProperty("snpgraph.dbpath"));
 		} else {
 			File[] dbsnpFiles = dbsnpDir.listFiles();
 			if (dbsnpFiles == null) {
@@ -59,7 +60,7 @@ public class SnpGraph {
 					System.out.println("Using SNP data from database.");
 				} else {
 					database.dropTable("snp");
-					prepAndReadInSnpData(dbsnpFiles[0].getAbsolutePath());
+					prepAndReadInSnpData(dbsnpFiles[0].getAbsolutePath(), System.getProperty("snpgraph.dbpath"));
 				}
             }
 		}
@@ -93,7 +94,7 @@ public class SnpGraph {
 		long starttime = System.nanoTime();
 
 		// Prepare and read in data with scripts
-		prepAndReadInChipData(file_path);
+		prepAndReadInChipData(file_path, System.getProperty("snpgraph.dbpath"));
 
 		long readInTime = System.nanoTime();
 		System.out.println("Read in time: " + (readInTime-starttime)/1000000000.0 + " seconds");
@@ -120,9 +121,9 @@ public class SnpGraph {
 	 * database table with SQLite .import
 	 */
 
-	public static void prepAndReadInChipData(String file) {
+	public static void prepAndReadInChipData(String file, String db) {
 		String[] cmd = { "sh", System.getProperty("snpgraph.resources") + "prepChipData.sh", file };
-		String[] cmd2 = { "sh", System.getProperty("snpgraph.resources") + "importChipData.sh" };
+		String[] cmd2 = { "sh", System.getProperty("snpgraph.resources") + "importChipData.sh", db };
 
 		runScript(cmd);
 		System.out.println("Importing into database..");
@@ -136,9 +137,9 @@ public class SnpGraph {
 	 * database table with SQLite .import
 	 */
 
-	public static void prepAndReadInSnpData(String file) {
+	public static void prepAndReadInSnpData(String file, String db) {
 		String[] cmd = { "sh", System.getProperty("snpgraph.resources") + "prepSNPData.sh", file };
-		String[] cmd2 = { "sh", System.getProperty("snpgraph.resources") + "importSNPData.sh" };
+		String[] cmd2 = { "sh", System.getProperty("snpgraph.resources") + "importSNPData.sh", db };
 
 		runScript(cmd);
 		System.out.println("Importing into database..");

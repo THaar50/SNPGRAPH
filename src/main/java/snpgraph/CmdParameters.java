@@ -70,6 +70,11 @@ public class CmdParameters {
 		options.addOption(chipSeqFile);
 		defaults.put("chipSeqFile", "/snpgraph/data/chipseq/");
 
+		Option dbPath = new Option("d", "dbPath", true, "path to folder containing snpgraph database (default: /snpgraph/data/tmp/)");
+		dbPath.setRequired(false);
+		options.addOption(dbPath);
+		defaults.put("dbPath", "/snpgraph/data/tmp/");
+
 		Option windowSize = new Option("w", "windowSize", true, "size of window to scan for SNPs around peak (default: 400)");
 		windowSize.setRequired(false);
 		options.addOption(windowSize);

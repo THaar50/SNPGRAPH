@@ -1,5 +1,8 @@
 package snpgraph;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,7 +12,7 @@ import java.sql.DatabaseMetaData;
 
 public class Database {
 
-	private static final String DB_URL = String.format("jdbc:sqlite:%ssnpgraph.db", System.getProperty("snpgraph.resources"));
+	private static final String DB_URL = String.format("jdbc:sqlite:%ssnpgraph.db", System.getProperty("snpgraph.dbpath"));
 	private static final String DRIVER_URL = "org.sqlite.JDBC";
 
 	private Connection conn;
@@ -28,16 +31,17 @@ public class Database {
 	 */
 	public Connection connect() {
 		try {
-
+			Files.createDirectories(Paths.get(System.getProperty("snpgraph.dbpath")));
 			// Verifying the driver
 			Class.forName(DRIVER_URL);
 			this.conn = DriverManager.getConnection(DB_URL);
 			System.out.println("Connection to SQLite database snpgraph.db has been established.");
-
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return this.conn;
 	}
