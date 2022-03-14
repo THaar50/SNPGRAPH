@@ -1,4 +1,4 @@
-package SNPGRAPH;
+package snpgraph;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,7 @@ public class CmdParameters {
 
 	/**
 	 * parses the arguments and creates a new CmdParameter object
-	 * 
+	 *
 	 * @param args
 	 *            program arguments
 	 * @throws ParseException
@@ -74,7 +74,7 @@ public class CmdParameters {
 		windowSize.setRequired(false);
 		options.addOption(windowSize);
 		defaults.put("windowSize", "400");
-		
+
 		Option closeAll = new Option("closeall", false, "close all graph windows at once when closing one when this flag is set");
 		closeAll.setRequired(false);
 		options.addOption(closeAll);

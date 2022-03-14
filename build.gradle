@@ -21,7 +21,7 @@ test {
 
 jar {
     manifest {
-        attributes('Main-Class': 'SNPGRAPH.SNPGRAPH', 'Class-Path': configurations.runtimeClasspath.files.collect { project.uri(it) }.join(' ')
+        attributes('Main-Class': 'snpgraph.SnpGraph', 'Class-Path': configurations.runtimeClasspath.files.collect { project.uri(it) }.join(' ')
         )
     }
 }

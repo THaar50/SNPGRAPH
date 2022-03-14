@@ -1,4 +1,4 @@
-package SNPGRAPH;
+package snpgraph;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.sql.DatabaseMetaData;
 
 public class Database {
 
-	private static final String DB_URL = String.format("jdbc:sqlite:%sSNPGRAPH.db", System.getProperty("snpgraph.resources"));
+	private static final String DB_URL = String.format("jdbc:sqlite:%ssnpgraph.db", System.getProperty("snpgraph.resources"));
 	private static final String DRIVER_URL = "org.sqlite.JDBC";
 
 	private Connection conn;
@@ -32,7 +32,7 @@ public class Database {
 			// Verifying the driver
 			Class.forName(DRIVER_URL);
 			this.conn = DriverManager.getConnection(DB_URL);
-			System.out.println("Connection to SQLite database SNPGRAPH.db has been established.");
+			System.out.println("Connection to SQLite database snpgraph.db has been established.");
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -58,7 +58,7 @@ public class Database {
 
 		System.out.println("Calculating statistics for SNP overlaps.. ");
 		try (Statement stmt = this.conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+			 ResultSet rs = stmt.executeQuery(sql)) {
 
 			while (rs.next()) {
 				// Calculate overlap positions
@@ -102,8 +102,8 @@ public class Database {
 		System.out.println("ChiP-Seq fragments without any SNPs: "
 				+ (totalFrags - fragCount)
 				+ " ("
-				+ SNPGRAPH.round(((double) (totalFrags - fragCount)
-						/ (double) totalFrags * 100.0), 4) + "%)");
+				+ SnpGraph.round(((double) (totalFrags - fragCount)
+				/ (double) totalFrags * 100.0), 4) + "%)");
 
 		System.out.println("Average distance from peak: "
 				+ (distances / overlapCount));
@@ -112,7 +112,7 @@ public class Database {
 
 		System.out.println("Mean of SNPs in all fragments: "
 				+ (double) overlapCount / (double) totalFrags);
-		
+
 		System.out.println("Mean of SNPs in all fragments containing SNPs: "
 				+ (double) overlapCount / (double) fragCount);
 		calcSNPMedian(fragCount, totalFrags);
@@ -122,10 +122,10 @@ public class Database {
 	 * Counts absolute occurrence of SNPs up in all fragments
 	 */
 	public void countDistances(int maxDist) {
-		String sql = 
+		String sql =
 				"SELECT snp.start AS snp_start, "
-				+ "chipseq.start+chipseq.peak as peak_pos FROM snp INNER JOIN chipseq ON chipseq.chr=snp.chr WHERE "
-				+ "snp.start>=chipseq.start AND snp.start<chipseq.end;";
+						+ "chipseq.start+chipseq.peak as peak_pos FROM snp INNER JOIN chipseq ON chipseq.chr=snp.chr WHERE "
+						+ "snp.start>=chipseq.start AND snp.start<chipseq.end;";
 
 		down_snp = new double[maxDist + 1];
 		up_snp = new double[maxDist + 1];
@@ -133,7 +133,7 @@ public class Database {
 		int peakPos, relSNPDist;
 
 		try (Statement stmt = this.conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+			 ResultSet rs = stmt.executeQuery(sql)) {
 
 			while (rs.next()) {
 				// Calculate overlap positions
@@ -166,7 +166,7 @@ public class Database {
 		int i = totalFrags-fragCount;
 
 		try (Statement stmt = this.conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+			 ResultSet rs = stmt.executeQuery(sql)) {
 
 			while (rs.next()) {
 				snp_frag_count[i] = rs.getInt("chip_count");
@@ -194,7 +194,7 @@ public class Database {
 		int count = 0;
 
 		try (Statement stmt = this.conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+			 ResultSet rs = stmt.executeQuery(sql)) {
 
 			count = rs.getInt(1);
 

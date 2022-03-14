@@ -1,4 +1,4 @@
-package SNPGRAPH;
+package snpgraph;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,7 +28,7 @@ public class GraphPanel extends JPanel {
 	 */
 
 	public GraphPanel(double[] up_values, double[] down_values,
-			int graphWindowSize, int totalFrags) {
+					  int graphWindowSize, int totalFrags) {
 		this.setBackground(Color.WHITE);
 
 		this.graphWindowSize = graphWindowSize;
@@ -55,7 +55,7 @@ public class GraphPanel extends JPanel {
 	/**
 	 * Overwriting the JComponent method paintComponent to be able to draw the
 	 * graph
-	 * 
+	 *
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 
@@ -130,7 +130,7 @@ public class GraphPanel extends JPanel {
 
 		// Label y axis
 		for (double i = 0; i < 5; i++) {
-			String label = Double.toString(SNPGRAPH.round(
+			String label = Double.toString(SnpGraph.round(
 					(i * yLabelValueScale), 4));
 			g2.drawString(label, (float) 0.0, (float) (height - PADDING
 					- yScale * i + 5.0));
@@ -140,12 +140,12 @@ public class GraphPanel extends JPanel {
 		g2.draw(new Line2D.Double(width / 2.0, height - PADDING
 				- (this.up_values[0] + this.down_values[0]) * yValuesScaling,
 				width / 2.0 + xValueScaling, height - PADDING
-						- this.up_values[1] * yValuesScaling));
+				- this.up_values[1] * yValuesScaling));
 
 		g2.draw(new Line2D.Double(width / 2.0, height - PADDING
 				- (this.up_values[0] + this.down_values[0]) * yValuesScaling,
 				width / 2.0 - xValueScaling, height - PADDING
-						- this.down_values[1] * yValuesScaling));
+				- this.down_values[1] * yValuesScaling));
 
 		// Draw upstream SNP distribution
 		for (int i = 1; i < this.up_values.length - 1; i++) {
@@ -213,13 +213,13 @@ public class GraphPanel extends JPanel {
 	 */
 	//closeAll
 	public static void showGUI(double[] up_values, double[] down_values,
-			int graphWindowSize, int totalFrags, String file_name) {
-			
+							   int graphWindowSize, int totalFrags, String file_name) {
+
 		GraphPanel panel = new GraphPanel(up_values, down_values,
 				graphWindowSize, totalFrags);
 		panel.setPreferredSize(new Dimension(panel.WIDTH, panel.HEIGHT));
 
-		JFrame frame = new JFrame("SNPGRAPH");
+		JFrame frame = new JFrame("snpgraph");
 //		TODO: close all windows or every window separately depending on flag
 //		if(closeAll=="y"){
 //			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
