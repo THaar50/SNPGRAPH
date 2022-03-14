@@ -6,7 +6,10 @@ package SNPGRAPH;
 
 import org.apache.commons.cli.ParseException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -73,7 +76,7 @@ public class SNPGRAPH {
 					System.out.println("Done with " + chipseqFile.getName());
 				}
 			} else {
-				System.out.println(String.format("No chipSeq files found in %s!", System.getProperty("snpgraph.chipseq.datapath")));
+				System.out.println("No chipSeq files found in " + System.getProperty("snpgraph.chipseq.datapath"));
 			}
 		}
 	}
